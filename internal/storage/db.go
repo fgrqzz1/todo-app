@@ -9,15 +9,15 @@ import (
 	"todo-app/internal/models"
 )
 
-func InitDB() *gorm.DB {
+func InitDB() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("todo.db"), &gorm.Config{})
 	if err != nil {
-		fmt.Printf("Не удалось подключиться к БД: %v", err)
+		return nil, fmt.Errorf("Connect db: %w", err)
 	}
 
 	if err := db.AutoMigrate(&models.Task{}); err != nil {
-		fmt.Printf("Не удалось выполнить миграцию: %v", err)
+		return nil, fmt.Errorf("Auto migrate: %w", err)
 	}
 
-	return db
+	return db, nil
 }
