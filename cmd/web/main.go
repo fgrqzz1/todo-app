@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"todo-app/internal/handelers"
 	"todo-app/internal/storage"
 )
 
@@ -20,13 +21,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	router := gin.Default()
+	taskRep := storage.NewGormTaskRepository(db)
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"messange": "Главная страница",
-		})
-	})
+	router := gin.Default()
+	handelers.RegisterTaskRoutes(router, *taskRep)
+
 
 	router.Run(":8080")
 }
+
+// todo: вынести конфиг
