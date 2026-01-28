@@ -9,14 +9,18 @@ import (
 )
 
 func main() {
-	db, err := storage.InitDB()
+	const dsn = "todo.db" // todo: вынести в end
+
+	db, err := storage.OpenDB(dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	router := gin.Default()
+	if err := storage.Migrate(db); err != nil {
+		log.Fatal(err)
+	}
 
-	_ = db // заглушка
+	router := gin.Default()
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
