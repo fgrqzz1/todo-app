@@ -23,6 +23,21 @@ logs/
 *.swp
 *~
 
+# База данных
+*.db
+todo.db
+
+# Go
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+coverage.out
+vendor/
+
 # Кэш
 .cache/
 .parcel-cache/
