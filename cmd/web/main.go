@@ -5,14 +5,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"todo-app/internal/handelers"
+	"todo-app/internal/config"
+	"todo-app/internal/handlers"
 	"todo-app/internal/storage"
 )
 
 func main() {
-	const dsn = "todo.db" // todo: вынести в end
+	cfg := config.Load()
 
-	db, err := storage.OpenDB(dsn)
+	db, err := storage.OpenDB(cfg.DSN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -22,12 +23,13 @@ func main() {
 	}
 
 	taskRep := storage.NewGormTaskRepository(db)
+	
+	gin.SetMode(cfg.GinMode)
 
 	router := gin.Default()
-	handelers.RegisterTaskRoutes(router, *taskRep)
+	handlers.RegisterTaskRoutes(router, *taskRep)
 
-
-	router.Run(":8080")
+	if err := router.Run(cfg.HTTPPort); err != nil {
+		log.Fatalf("Server disconnect: %v", err)
+	}
 }
-
-// todo: вынести конфиг
