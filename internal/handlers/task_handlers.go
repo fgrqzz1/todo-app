@@ -9,6 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Home(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Главная страница",
+	})
+}
+
 func ListTasks(rep repository.TaskRepository) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		tasks, err := rep.ListTasks(c.Request.Context())
