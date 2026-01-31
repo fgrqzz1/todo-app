@@ -27,7 +27,7 @@ func main() {
 	gin.SetMode(cfg.GinMode)
 
 	router := gin.Default()
-	handlers.RegisterTaskRoutes(router, *taskRep)
+	handlers.RegisterTaskRoutes(router, taskRep)
 
 	if err := router.Run(cfg.HTTPPort); err != nil {
 		log.Fatalf("Server disconnect: %v", err)

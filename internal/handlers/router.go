@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"todo-app/internal/models"
-	"todo-app/internal/storage"
+	"todo-app/internal/repository"
 )
 
-func RegisterTaskRoutes(r *gin.Engine, rep storage.GormTaskRepository) {
+func RegisterTaskRoutes(r *gin.Engine, rep repository.TaskRepository) {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"messange": "Главная страница",
