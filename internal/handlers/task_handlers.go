@@ -67,6 +67,7 @@ func CreateTask(rep repository.TaskRepository) func(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "Failed to create task",
 			})
+			return
 		}
 
 		c.JSON(http.StatusCreated, input)
