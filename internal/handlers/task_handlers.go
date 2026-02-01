@@ -43,7 +43,7 @@ func GetTaskByID(rep repository.TaskRepository) func(c *gin.Context) {
 		task, err := rep.GetTaskByID(c.Request.Context(), uint(id))
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Faild to get task",
+				"error": "Failed to get task",
 			})
 			return
 		}
@@ -117,7 +117,7 @@ func DeleteTask(rep repository.TaskRepository) func(c *gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusNoContent, gin.H {
+		c.JSON(http.StatusOK, gin.H {
 			"message": "Task deleted",
 		})
 	}
