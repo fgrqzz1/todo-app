@@ -15,7 +15,7 @@ func RegisterTaskRoutes(r *gin.Engine, rep repository.TaskRepository) {
 
 	r.POST("/tasks", CreateTask(rep))
 
-	r.PATCH("/task/:id/done", MarkDone(rep))
+	r.PATCH("/tasks/:id/done", MarkDone(rep))
 
 	r.DELETE("/tasks/:id", DeleteTask(rep))
 

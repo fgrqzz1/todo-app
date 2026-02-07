@@ -9,6 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func parseTaskID(c *gin.Context) (uint, bool) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid task id",
+		})
+		return 0, false
+	}
+	return uint(id), true
+}
+
 func Home(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Главная страница",
@@ -30,15 +42,8 @@ func ListTasks(rep repository.TaskRepository) func(c *gin.Context) {
 
 func GetTaskByID(rep repository.TaskRepository) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		idParam := c.Param("id")
-
-		id, err := strconv.ParseUint(idParam, 10, 64)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Invalid task id",
-			})
-			return
-		}
+		id, ok := parseTaskID(c)
+		if !ok {return}
 
 		task, err := rep.GetTaskByID(c.Request.Context(), uint(id))
 		if err != nil {
@@ -76,15 +81,8 @@ func CreateTask(rep repository.TaskRepository) func(c *gin.Context) {
 
 func MarkDone(rep repository.TaskRepository) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		idParam := c.Param("id")
-		
-		id, err := strconv.ParseUint(idParam, 10, 64)
-		if err != nil{
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Invalid task id",
-			})
-			return
-		}
+		id, ok := parseTaskID(c)
+		if !ok {return}
 
 		if err := rep.MarkDone(c.Request.Context(), uint(id)); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H {
@@ -101,15 +99,8 @@ func MarkDone(rep repository.TaskRepository) func(c *gin.Context) {
 
 func DeleteTask(rep repository.TaskRepository) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		idParam := c.Param("id")
-		
-		id, err := strconv.ParseUint(idParam, 10, 64)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Invalid task id",
-			})
-			return
-		}
+		id, ok := parseTaskID(c)
+		if !ok {return}
 
 		if err := rep.DeleteTask(c.Request.Context(), uint(id)); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H {

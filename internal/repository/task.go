@@ -2,8 +2,11 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"todo-app/internal/models"
 )
+
+var ErrTaskNotFound = errors.New("Task not found")
 
 type TaskRepository interface{
 	CreateTask(ctx context.Context, task *models.Task) error
