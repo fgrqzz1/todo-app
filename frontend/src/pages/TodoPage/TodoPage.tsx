@@ -1,72 +1,67 @@
 import { useState, useEffect, useCallback } from 'react'
-import { api } from '@/api/client'
-import type { Task } from '@/types/task'
 import { Layout } from '@/components/Layout/Layout'
 import { Header } from '@/components/Header/Header'
-import { TaskForm } from '@/components/TaskForm/TaskForm'
 import { TaskList } from '@/components/TaskList/TaskList'
+import { TaskForm } from '@/components/TaskForm/TaskForm'
+import { api } from '@/api/client'
+import type { Task } from '@/types/task'
 import styles from './TodoPage.module.css'
 
 export function TodoPage() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<number | null>(null)
-  const [creating, setCreating] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
 
-  const fetchTasks = useCallback(async () => {
-    setLoading(true)
-    setError(null)
+  const loadTasks = useCallback(async () => {
     try {
+      setLoading(true)
       const data = await api.getTasks()
       setTasks(data)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось загрузить задачи')
+      console.error('Failed to load tasks:', e)
     } finally {
       setLoading(false)
     }
   }, [])
 
   useEffect(() => {
-    fetchTasks()
-  }, [fetchTasks])
+    loadTasks()
+  }, [loadTasks])
 
   const handleCreate = async (title: string, description: string) => {
-    setCreating(true)
-    setError(null)
     try {
+      setFormLoading(true)
       const created = await api.createTask({ Title: title, Description: description || undefined })
       setTasks((prev) => [created, ...prev])
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось добавить задачу')
+      console.error('Failed to create task:', e)
     } finally {
-      setCreating(false)
+      setFormLoading(false)
     }
   }
 
   const handleToggleDone = async (id: number) => {
-    setUpdatingId(id)
-    setError(null)
     try {
+      setUpdatingId(id)
       await api.markDone(id)
       setTasks((prev) =>
         prev.map((t) => (t.ID === id ? { ...t, Done: true } : t))
       )
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось обновить задачу')
+      console.error('Failed to mark done:', e)
     } finally {
       setUpdatingId(null)
     }
   }
 
   const handleDelete = async (id: number) => {
-    setUpdatingId(id)
-    setError(null)
     try {
+      setUpdatingId(id)
       await api.deleteTask(id)
       setTasks((prev) => prev.filter((t) => t.ID !== id))
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось удалить задачу')
+      console.error('Failed to delete task:', e)
     } finally {
       setUpdatingId(null)
     }
@@ -75,14 +70,11 @@ export function TodoPage() {
   return (
     <Layout>
       <Header />
-      {error && (
-        <div className={styles.error} role="alert">
-          {error}
-        </div>
-      )}
       <main className={styles.main}>
-        <section className={styles.listSection} aria-labelledby="tasks-heading">
-          <h2 id="tasks-heading" className={styles.listHeading}>Задачи</h2>
+        <section className={styles.section} aria-labelledby="tasks-heading">
+          <h2 id="tasks-heading" className={styles.heading}>
+            Задачи
+          </h2>
           {loading ? (
             <div className={styles.loading}>Загрузка…</div>
           ) : (
@@ -94,8 +86,13 @@ export function TodoPage() {
             />
           )}
         </section>
-        <aside className={styles.formSection} aria-label="Добавить задачу">
-          <TaskForm onSubmit={handleCreate} isLoading={creating} />
+        <aside className={styles.aside} aria-labelledby="new-task-heading">
+          <h2 id="new-task-heading" className={styles.heading}>
+            Новая задача
+          </h2>
+          <div className={styles.formCard}>
+            <TaskForm onSubmit={handleCreate} isLoading={formLoading} />
+          </div>
         </aside>
       </main>
     </Layout>

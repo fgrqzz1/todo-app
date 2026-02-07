@@ -50,6 +50,19 @@ export function TaskForm({ onSubmit, isLoading }: TaskFormProps) {
       >
         {isLoading ? 'Добавляю…' : 'Добавить'}
       </button>
+      <p className={styles.credit}>
+        Разработчик Grachev Yaroslav
+        <br />
+        tg:{' '}
+        <a
+          href="https://t.me/grachev_yk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.creditLink}
+        >
+          @grachev_yk
+        </a>
+      </p>
     </form>
   )
 }

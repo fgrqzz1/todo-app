@@ -65,3 +65,21 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.credit {
+  margin: 1.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.creditLink {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.creditLink:hover {
+  color: var(--accent-muted);
+  text-decoration: underline;
+}
