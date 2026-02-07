@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"todo-app/internal/models"
@@ -47,6 +48,12 @@ func GetTaskByID(rep repository.TaskRepository) func(c *gin.Context) {
 
 		task, err := rep.GetTaskByID(c.Request.Context(), uint(id))
 		if err != nil {
+			if errors.Is(err, repository.ErrTaskNotFound) {
+				c.JSON(http.StatusNotFound, gin.H{
+					"error": "Task not found",
+				})
+				return
+			}
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "Failed to get task",
 			})
@@ -85,6 +92,11 @@ func MarkDone(rep repository.TaskRepository) func(c *gin.Context) {
 		if !ok {return}
 
 		if err := rep.MarkDone(c.Request.Context(), uint(id)); err != nil {
+			if errors.Is(err, repository.ErrTaskNotFound){
+				c.JSON(http.StatusNotFound, gin.H{
+					"error": "Task not found",
+				})
+			}
 			c.JSON(http.StatusInternalServerError, gin.H {
 				"error": "Failed to mark task as done",
 			})
@@ -103,6 +115,12 @@ func DeleteTask(rep repository.TaskRepository) func(c *gin.Context) {
 		if !ok {return}
 
 		if err := rep.DeleteTask(c.Request.Context(), uint(id)); err != nil {
+			if errors.Is(err, repository.ErrTaskNotFound) {
+				c.JSON(http.StatusNotFound, gin.H{
+					"error": "Task not found",
+				})
+				return
+			}
 			c.JSON(http.StatusInternalServerError, gin.H {
 				"error": "Failed to delete task",
 			})
