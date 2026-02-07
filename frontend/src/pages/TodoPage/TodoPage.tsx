@@ -75,22 +75,29 @@ export function TodoPage() {
   return (
     <Layout>
       <Header />
-      <TaskForm onSubmit={handleCreate} isLoading={creating} />
       {error && (
         <div className={styles.error} role="alert">
           {error}
         </div>
       )}
-      {loading ? (
-        <div className={styles.loading}>Загрузка…</div>
-      ) : (
-        <TaskList
-          tasks={tasks}
-          onToggleDone={handleToggleDone}
-          onDelete={handleDelete}
-          updatingId={updatingId}
-        />
-      )}
+      <main className={styles.main}>
+        <section className={styles.listSection} aria-labelledby="tasks-heading">
+          <h2 id="tasks-heading" className={styles.listHeading}>Задачи</h2>
+          {loading ? (
+            <div className={styles.loading}>Загрузка…</div>
+          ) : (
+            <TaskList
+              tasks={tasks}
+              onToggleDone={handleToggleDone}
+              onDelete={handleDelete}
+              updatingId={updatingId}
+            />
+          )}
+        </section>
+        <aside className={styles.formSection} aria-label="Добавить задачу">
+          <TaskForm onSubmit={handleCreate} isLoading={creating} />
+        </aside>
+      </main>
     </Layout>
   )
 }

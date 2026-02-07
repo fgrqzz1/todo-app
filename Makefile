@@ -1,4 +1,4 @@
-.PHONY dev backend frontend build build-backend build-frontend test clean install
+.PHONY: dev backend frontend build build-backend build-frontend test clean install
 dev:
 	@echo "Запуск бэкенда на :8080..."
 	@go run ./cmd/web & \

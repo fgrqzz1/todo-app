@@ -57,18 +57,18 @@
 .checkmark::after {
   content: '';
   position: absolute;
-  left: 5px;
-  top: 2px;
+  left: 50%;
+  top: 50%;
   width: 5px;
   height: 9px;
   border: solid var(--bg-primary);
   border-width: 0 2px 2px 0;
-  transform: rotate(45deg) scale(0);
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
   transition: transform var(--transition);
 }
 
 .checkbox:checked + .checkmark::after {
-  transform: rotate(45deg) scale(1);
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
 
 .content {
@@ -85,6 +85,7 @@
 }
 
 .description {
+  font-weight: 500;
   font-size: 0.875rem;
   color: var(--text-secondary);
   margin-bottom: 0.5rem;

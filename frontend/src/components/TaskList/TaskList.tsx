@@ -15,7 +15,7 @@ export function TaskList({ tasks, onToggleDone, onDelete, updatingId }: TaskList
       <div className={styles.empty}>
         <div className={styles.emptyIcon}>◇</div>
         <p className={styles.emptyText}>Пока нет задач</p>
-        <p className={styles.emptyHint}>Добавьте первую задачу выше</p>
+        <p className={styles.emptyHint}>Добавьте задачу в форме справа</p>
       </div>
     )
   }

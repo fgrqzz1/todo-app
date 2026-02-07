@@ -8,8 +8,49 @@
   font-size: 0.9rem;
 }
 
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  min-height: 60vh;
+}
+
+@media (min-width: 768px) {
+  .main {
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+.listSection {
+  min-width: 0;
+}
+
+.listHeading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.formSection {
+  position: sticky;
+  top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .formSection {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+}
+
 .loading {
-  text-align: center;
   padding: 2rem;
   color: var(--text-muted);
   font-size: 0.95rem;
