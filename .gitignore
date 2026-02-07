@@ -29,6 +29,7 @@ todo.db
 
 # Go
 /bin/
+bin/
 *.exe
 *.exe~
 *.dll
