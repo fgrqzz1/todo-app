@@ -1,0 +1,16 @@
+.error {
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-md);
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}

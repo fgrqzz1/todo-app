@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	"todo-app/internal/config"
@@ -27,6 +28,7 @@ func main() {
 	gin.SetMode(cfg.GinMode)
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	handlers.RegisterTaskRoutes(router, taskRep)
 
 	if err := router.Run(cfg.HTTPPort); err != nil {

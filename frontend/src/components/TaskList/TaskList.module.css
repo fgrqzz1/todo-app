@@ -1,0 +1,39 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.emptyIcon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.emptyHint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

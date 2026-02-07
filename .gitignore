@@ -43,3 +43,7 @@ vendor/
 .parcel-cache/
 .npm/
 .yarn/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
