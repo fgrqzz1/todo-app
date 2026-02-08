@@ -10,15 +10,20 @@ import styles from './TodoPage.module.css'
 export function TodoPage() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<number | null>(null)
   const [formLoading, setFormLoading] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
 
   const loadTasks = useCallback(async () => {
     try {
       setLoading(true)
+      setLoadError(null)
       const data = await api.getTasks()
       setTasks(data)
     } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Ошибка сети'
+      setLoadError(msg)
       console.error('Failed to load tasks:', e)
     } finally {
       setLoading(false)
@@ -32,9 +37,12 @@ export function TodoPage() {
   const handleCreate = async (title: string, description: string) => {
     try {
       setFormLoading(true)
+      setFormError(null)
       const created = await api.createTask({ Title: title, Description: description || undefined })
       setTasks((prev) => [created, ...prev])
     } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Не удалось добавить задачу'
+      setFormError(msg)
       console.error('Failed to create task:', e)
     } finally {
       setFormLoading(false)
@@ -77,6 +85,14 @@ export function TodoPage() {
           </h2>
           {loading ? (
             <div className={styles.loading}>Загрузка…</div>
+          ) : loadError ? (
+            <div className={styles.error}>
+              <p className={styles.errorText}>{loadError}</p>
+              <p className={styles.errorHint}>Убедитесь, что бэкенд запущен: <code>make backend</code> или <code>make dev</code></p>
+              <button type="button" className={styles.retry} onClick={loadTasks}>
+                Повторить
+              </button>
+            </div>
           ) : (
             <TaskList
               tasks={tasks}
@@ -91,6 +107,11 @@ export function TodoPage() {
             Новая задача
           </h2>
           <div className={styles.formCard}>
+            {formError && (
+              <p className={styles.formError} role="alert">
+                {formError}
+              </p>
+            )}
             <TaskForm onSubmit={handleCreate} isLoading={formLoading} />
           </div>
         </aside>

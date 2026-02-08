@@ -40,3 +40,51 @@
   padding: 2rem;
   text-align: center;
 }
+
+.error {
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.errorText {
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem;
+  font-weight: 500;
+}
+
+.errorHint {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.errorHint code {
+  background: var(--bg-tertiary);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+.retry {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bg-primary);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.retry:hover {
+  opacity: 0.9;
+}
+
+.formError {
+  color: var(--accent);
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+}
